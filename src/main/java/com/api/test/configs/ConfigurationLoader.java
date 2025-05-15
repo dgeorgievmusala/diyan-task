@@ -9,21 +9,23 @@ public class ConfigurationLoader {
   private static Properties properties = new Properties();
 
   static {
-    try (InputStream input =
-        ConfigurationLoader.class.getClassLoader().getResourceAsStream("application.properties")) {
+    String env = System.getProperty("prod", "dev"); // default to 'qa'
+    String fileName = "application-" + env + ".properties";
+
+    try (InputStream input = ConfigurationLoader.class.getClassLoader().getResourceAsStream(fileName)) {
       if (input == null) {
-        throw new RuntimeException("application.properties not found in classpath");
+        throw new RuntimeException(fileName + " not found in classpath");
       }
       properties.load(input);
     } catch (IOException ex) {
-      throw new RuntimeException("Failed to load application.properties", ex);
+      throw new RuntimeException("Failed to load " + fileName, ex);
     }
   }
 
   public static String getProperty(String key) {
     String value = properties.getProperty(key);
     if (value == null) {
-      throw new RuntimeException("Property " + key + " not found in application.properties");
+      throw new RuntimeException("Property '" + key + "' not found in loaded configuration file");
     }
     return value;
   }
