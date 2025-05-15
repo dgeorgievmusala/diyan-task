@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite name="API Test Suite">
+
+    <test name="Authors Tests">
+        <groups>
+            <run>
+                <exclude name="broken"/>
+            </run>
+        </groups>
+        <classes>
+            <class name="com.api.test.tests.AuthorTests"/>
+        </classes>
+    </test>
+
+    <test name="Books Tests">
+        <groups>
+            <run>
+                <exclude name="broken"/>
+            </run>
+        </groups>
+        <classes>
+            <class name="com.api.test.tests.BooksTests"/>
+        </classes>
+    </test>
+
+</suite>
