@@ -1,6 +1,4 @@
-/.idea
-/reports/
-/target
-/test-output
-/logs/
-*.iml
+/allure-results/
+/target/
+/.idea/
+/.allure/
