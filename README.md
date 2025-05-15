@@ -45,12 +45,19 @@ mvn clean install
 
 ```bash
 mvn clean test
+
+Dev environment
+ mvn clean test -Denv=dev
+
+Prod environment
+ mvn clean test -Denv=prod
+ 
 ```
 
 To run specific TestNG groups:
 
 ```bash
-mvn clean test -Dgroups="smoke"
+mvn clean test -Dgroups=
 ```
 
 ---
