@@ -1,49 +1,56 @@
-name: Run API Tests and Upload Allure Report
+name: Allure Report
+run-name: ${{ github.actor }} is creating Allure report 🚀
 
 on:
   push:
-    branches: [ '**' ]
-  workflow_dispatch:
+    branches-ignore:
+      - '!main'
 
 jobs:
-  test:
+  autotests:
+    name: Run tests and generate Allure Report
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - name: Clone repository
+        uses: actions/checkout@v4.2.2
 
-      - name: Set up JDK 21
-        uses: actions/setup-java@v4
+      - name: Set up Java 21
+        uses: actions/setup-java@v4.5.0
         with:
-          java-version: '21'
-          distribution: 'temurin'
+          java-version: 21
+          cache: 'maven'
+          distribution: 'zulu'
 
       - name: Cache Maven dependencies
         uses: actions/cache@v4
         with:
           path: ~/.m2
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-maven
+          restore-keys: ${{ runner.os }}-maven
 
-      - name: Build and Run Tests
+      - name: Run Maven Tests
         run: mvn clean test -Denv=dev
+        continue-on-error: true
+
+      - name: Setup Allure History
+        uses: actions/checkout@v4.2.2
+        if: always()
+        continue-on-error: true
+        with:
+          ref: gh-pages
+          path: gh-pages
 
       - name: Generate Allure Report
-        run: mvn allure:report
-
-      - name: Upload Allure Report
+        uses: simple-elf/allure-report-action@v1.11
         if: always()
-        uses: actions/upload-artifact@v4
         with:
-          name: allure-report
-          path: target/allure-report
+          allure_results: target/allure-results
+          allure_history: allure-history
 
-      # Optional
-      - name: Deploy Allure Report to GitHub Pages
-        if: success()
-        uses: peaceiris/actions-gh-pages@v3
+      - name: Publish Allure Report
+        if: always()
+        uses: peaceiris/actions-gh-pages@v4.0.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
