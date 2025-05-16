@@ -55,7 +55,7 @@ Prod environment
 ```
 
 To run specific TestNG groups:
-
+There is no groups added at the moment but test can be separated in to groups like smoke, regression, flaky 
 ```bash
 mvn clean test -Dgroups=
 ```
@@ -84,7 +84,8 @@ CI is automatically triggered on:
 
 It includes:
 - Build & test using Java 21
-- Upload of Allure test results
+- Upload of Allure test results in separate git page
+https://dgeorgievmusala.github.io/diyan-task/#suites
 
 ---
 
@@ -127,17 +128,9 @@ src/
 │       ├── authors.json
 │       ├── books.json
 │       └── config.properties
+        └── testng.xml
+| .gitignore
+| pom.xml
+| README.md
 ```
 
----
-
-## 🧼 Reset Git for New Repository
-
-```bash
-rm -rf .git
-git init
-git remote add origin https://github.com/your-username/your-repo.git
-git add .
-git commit -m "Initial commit"
-git push -u origin main
-```
