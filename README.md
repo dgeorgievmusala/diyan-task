@@ -64,14 +64,11 @@ mvn clean test -Dgroups=
 
 ## 📊 Generate Allure Report
 
-```bash
-mvn allure:report
-```
-
 Serve the report locally:
 
 ```bash
-mvn allure:serve
+allure serve target/allure-report
+
 ```
 
 > Requires [Allure CLI](https://docs.qameta.io/allure/#_installing_a_commandline)
@@ -144,13 +141,3 @@ git add .
 git commit -m "Initial commit"
 git push -u origin main
 ```
-
----
-
-## 🧪 Example Test Groups
-
-| Group    | Description          |
-|----------|----------------------|
-| `smoke`  | Smoke test subset    |
-| `flaky`  | Flaky/Retry-enabled  |
-| `broken` | Skipped from CI runs |
