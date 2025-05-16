@@ -20,6 +20,7 @@ import java.util.Date;
 import org.apache.http.HttpStatus;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
 public class BooksTests extends BaseApiTest {
@@ -47,7 +48,8 @@ public class BooksTests extends BaseApiTest {
         assertEquals(totalBooks, 200, "Total number of books should be 200");
     }
 
-    @Test(description = "Get a book by ID and validate fields",groups = "broken")
+    @Ignore
+    @Test(description = "Get a book by ID and validate fields")
     public void testGetBookById() {
         // Step 1: Create a book to ensure we know the ID
         Book newBook = bookRepository.getFakeNewBook();
@@ -165,33 +167,6 @@ public class BooksTests extends BaseApiTest {
         verifyError.verifyErrorInvalidDateFormat(response);
     }
 
-    @Epic("Books API")
-    @Feature("Book Creation")
-    @Story("Handle known bugs gracefully")
-    @Description("Fails due to bug in pageCount validator (XYZ-123)")
-    public void testCreateBookWithPageCount(
-            Object pageCount, int expectedStatus, String description) {
-        Book newBook = bookRepository.getFakeNewBook();
-        newBook.setPageCount((Integer) pageCount);
-        String newBookJson = gson.toJson(newBook);
-        Response response = bookRequests.createBook(newBookJson).then().extract().response();
-
-        assertEquals(
-                response.statusCode(),
-                expectedStatus,
-                String.format(
-                        "Failed: Expected status %d, but got %d. Description: %s",
-                        expectedStatus, response.getStatusCode(), description));
-
-        if (expectedStatus == HttpStatus.SC_BAD_REQUEST) {
-            verifyError.verifyErrorInvalidPageCount(response);
-            Assert.fail("Still broken due to XYZ-123");
-
-        } else {
-            Assert.fail("Still broken due to XYZ-123");
-        }
-    }
-
     @Test(description = "Update Book with valid data")
     public void testUpdateBook() {
         // Step 1: Create book first
@@ -210,8 +185,8 @@ public class BooksTests extends BaseApiTest {
         assertEquals(result.getTitle(), updatedBook.getTitle());
     }
 
-
-    @Test(description = "Update Book with NON-Existent ID", groups = "broken")
+    @Ignore
+    @Test(description = "Update Book with NON-Existent ID")
     public void testUpdateBookNonExistentID() {
         Book newBook = bookRepository.getFakeNewBook();
         String newBookJson = gson.toJson(newBook);
@@ -238,8 +213,8 @@ public class BooksTests extends BaseApiTest {
                         .response();
         verifyError.verifyErrorInvalidIdType(response, INVALID_ID_DATA_TYPE);
     }
-
-    @Test(description = "Update Book with mismatching ID",groups = "broken")
+    @Ignore
+    @Test(description = "Update Book with mismatching ID")
     public void testUpdateBookWithMisMatchingID() {
         int idMismatch = (Integer) expectedBook.getId() + 1;
         Book newBook = bookRepository.getFakeNewBook();
@@ -253,9 +228,9 @@ public class BooksTests extends BaseApiTest {
                 .extract()
                 .response();
     }
-
+    @Ignore
     @Test(
-            groups = "broken",
+
             description = "Update Book with different page count values",
             dataProvider = "pageCountProvider",
             dataProviderClass = DataProviderClass.class)
@@ -282,8 +257,8 @@ public class BooksTests extends BaseApiTest {
             assertEquals(response.jsonPath().getInt("pageCount"), (Integer) pageCount);
         }
     }
-
-    @Test(description = "Delete book by ID", groups = "broken")
+    @Ignore
+    @Test(description = "Delete book by ID")
     public void testDeleteBookByID() {
         // Create a book first
         Book newBook = bookRepository.getFakeNewBook();
@@ -298,8 +273,8 @@ public class BooksTests extends BaseApiTest {
 
     }
 
-
-    @Test(description = "Delete Book with NON-Existent ID", groups = "broken")
+    @Ignore
+    @Test(description = "Delete Book with NON-Existent ID")
     public void testDeleteBookNonExistentID() {
         Response response =
                 bookRequests

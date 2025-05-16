@@ -13,6 +13,7 @@ import org.apache.http.HttpStatus;
 import org.testng.Assert;
 import org.testng.SkipException;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
 import java.util.List;
@@ -134,9 +135,9 @@ public class AuthorTests extends BaseApiTest {
         Assert.assertNotNull(id, "ID should be present in creation response");
 
     }
-
+    @Ignore
     @Description("Expected to fail due to bug XYZ")
-    @Test(groups = "broken", enabled = false,
+    @Test( enabled = false,
             description = "Create an Author with invalid data type")
 
     public void testCreateAuthorWithInvalidDataType() {
@@ -193,9 +194,8 @@ public class AuthorTests extends BaseApiTest {
                         "The expected author book reference is [%s], but we got [%s]",
                         author.getIdBook(), updatedAuthor.getIdBook()));
     }
-
-    @Test(description = "Update Author with mismatch id",
-            groups = "broken")
+    @Ignore
+    @Test(description = "Update Author with mismatch id")
     public void updateAuthorMistMatchID() {
         Integer misMatchId = ((Integer) expectedAuthor.getId()) + 1;
         Author author = authorRepository.getFakeNewAuthor();
@@ -203,8 +203,8 @@ public class AuthorTests extends BaseApiTest {
         String payload = gson.toJson(author);
         authorRequests.updateAuthor(misMatchId, payload).then().statusCode(HttpStatus.SC_BAD_REQUEST);
     }
-
-    @Test(description = "Update Author with NON-existent id" , groups = "broken")
+    @Ignore
+    @Test(description = "Update Author with NON-existent id")
     public void updateAuthorNonExistentID() {
         Author author = authorRepository.getFakeNewAuthor();
         author.setId(expectedAuthor.getId());
@@ -244,10 +244,8 @@ public class AuthorTests extends BaseApiTest {
     public void testDeleteAuthorWithValidId() {
         authorRequests.deleteAuthor(expectedAuthor.getId()).then().statusCode(HttpStatus.SC_OK);
     }
-
-    @Test(description = "Delete author with NON-existent ID",
-            groups = "broken"
-    )
+    @Ignore
+    @Test(description = "Delete author with NON-existent ID")
 
     public void testDeleteAuthorWithNonExistentID() {
 

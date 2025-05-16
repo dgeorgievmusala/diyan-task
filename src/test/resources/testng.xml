@@ -1,31 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
-<suite name="API Test Suite" parallel="false">
+<suite name="API Test Suite">
 
-    <parameter name="env" value="dev"/>
+    <parameter name="env" value="${env}"/>
 
     <test name="Authors Tests">
-        <groups>
-            <run>
-                <exclude name="broken"/>
-            </run>
-        </groups>
-        <parameter name="env" value="dev"/>
         <classes>
             <class name="com.api.test.tests.AuthorTests"/>
         </classes>
     </test>
-
     <test name="Books Tests">
-        <groups>
-            <run>
-                <exclude name="broken"/>
-            </run>
-        </groups>
-        <parameter name="env" value="dev"/>
         <classes>
             <class name="com.api.test.tests.BooksTests"/>
         </classes>
     </test>
-
 </suite>

@@ -9,7 +9,7 @@ public class ConfigurationLoader {
   private static Properties properties = new Properties();
 
   static {
-    String env = System.getProperty("prod", "dev"); // default to 'qa'
+    String env = System.getProperty("qa", "dev"); // default to 'qa'
     String fileName = "application-" + env + ".properties";
 
     try (InputStream input = ConfigurationLoader.class.getClassLoader().getResourceAsStream(fileName)) {
