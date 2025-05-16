@@ -35,10 +35,12 @@ jobs:
       - name: Generate Allure Report
         run: mvn allure:report
 
-      - name: Upload Allure Report
+      - name: Publish Allure Report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: peaceiris/actions-gh-pages@v4
         with:
-          name: allure-report
-          path: target/allure-report
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: allure-history
+
 
